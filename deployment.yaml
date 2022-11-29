@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deploy-with-minikube
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: deploy-with-minikube
+      tier: front
+  template:
+    metadata:
+      labels:
+        app: deploy-with-minikube
+        tier: front
+    spec:
+      containers:
+        - name: deploy-with-minikube
+          image: jongeunshin95/deploy-with-minikube:1.0
+          ports:
+            - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: deploy-with-minikube
+spec:
+  type: NodePort
+  selector:
+    app: deploy-with-minikube
+    tier: front
+  ports:
+    - port: 80
+      nodePort: 30000
