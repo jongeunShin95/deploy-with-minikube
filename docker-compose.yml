@@ -1,0 +1,28 @@
+version: '1.0'
+ 
+services:
+  web:
+    build:
+      context: ./client
+    container_name: web
+    restart: "on-failure"
+    ports:
+      - 3000:80
+    volumes:
+      - './client:/app'
+      - '/app/node_modules'
+    depends_on:
+      - server
+ 
+  server:
+    build:
+      context: ./server
+    container_name: docker-server
+    restart: "on-failure"
+    expose:
+      - 3001
+    volumes:
+      - './server:/app'
+      - '/app/node_modules'
+    stdin_open: true
+    tty: true
